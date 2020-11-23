@@ -10,27 +10,29 @@
 <body>
     <h1>BREAD (Browse, Read, Edit, Add, Delete)</h1>
     <h3>Filters</h3>
-    <label><input type="checkbox" name="checkid" <%= query.checkid ? ' checked' : '' ; %>>ID</label>
-    <input type="iteger" placeholder="ID" name="formid" value="<%= query.formid %>"><br />
-    <label><input type="checkbox" name="checkstring">String</label>
-    <input type="iteger" placeholder="String" name="formstring"><br />
-    <label><input type="checkbox" name="checkinteger">Integer</label>
-    <input type="iteger" placeholder="Integer" ame="forminteger"><br />
-    <label><input type="checkbox" name="checkfloat">Folat</label>
-    <input type="iteger" placeholder="Float" name="formfloat"><br />
-    <label><input type="checkbox" name="checkdate">Date</label>
-    <input type="iteger" placeholder="tart date" name="formdate"><br />
-    <input type="text" placeholder="end date" name="formenddate"><br />
-    <label><input type="checkbox" name="checkboolean">Boolean</label>
-    <select class="custom-select" name="boolean">
-        <option value="">Choose the boolean ...</option>
-        <option value="true">True</option>
-        <option value="false">False</option>
-    </select><br />
+    <form action="/" method="get">
+        <label><input type="checkbox" name="checkid" >ID</label>
+        <input type="iteger" placeholder="ID" name="formid" ><br />
+        <label><input type="checkbox" name="checkstring">String</label>
+        <input type="iteger" placeholder="String" name="formstring"><br />
+        <label><input type="checkbox" name="checkinteger">Integer</label>
+        <input type="iteger" placeholder="Integer" ame="forminteger"><br />
+        <label><input type="checkbox" name="checkfloat">Folat</label>
+        <input type="iteger" placeholder="Float" name="formfloat"><br />
+        <label><input type="checkbox" name="checkdate">Date</label>
+        <input type="iteger" placeholder="tart date" name="formdate"><br />
+        <input type="text" placeholder="end date" name="formenddate"><br />
+        <label><input type="checkbox" name="checkboolean">Boolean</label>
+        <select class="custom-select" name="boolean">
+            <option value="">Choose the boolean ...</option>
+            <option value="true">True</option>
+            <option value="false">False</option>
+        </select><br />
 
-    <a href="/">
-        <button style="color: mediumblue;" type="submit">Search</button>
-    </a>
+        <a href="/">
+            <button type="submit" style="color: mediumblue;">Search</button>
+        </a>
+    </form>
 
     <table border="1" action="/" method="get">
         <thead>

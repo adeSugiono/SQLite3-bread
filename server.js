@@ -25,46 +25,50 @@ let db = new sqlite3.Database(path.join(__dirname, 'data.db'), (err) => {
 });
 
 //create table
-db.run('CREATE TABLE IF NOT EXISTS data(id INTEGER PRIMARY KEY AUTOINCREMENT, string TEXT NOT NULL, integer INTEGER NOT NULL, float FLOAT NOT NULL, date TEXT NOT NULL, boolean TEXT NOT NULL)');
+//db.run('CREATE TABLE IF NOT EXISTS data(id INTEGER PRIMARY KEY AUTOINCREMENT, string TEXT NOT NULL, integer INTEGER NOT NULL, float FLOAT NOT NULL, date TEXT NOT NULL, boolean TEXT NOT NULL)');
 
 app.get('/', (req, res) => {
+  const {checkid,checkdate, checkfloat,checkstring,checkinteger,formid,formstring,forminteger,formfloat,formdate,formenddate,checkboolean,boolean} = req.query;
   const page = req.query.page || 1;
-  const limit = 5;
+  const limit = 3;
   const offset = (page - 1) * limit;
   const url = req.url == '/' ? '/?page=1' : req.url
 
   let params = [];
   let isFilter = false;
+  console.log(checkid)
+  console.log(formid)
 
-  if (req.query.checkid && req.query.formid) {
-    params.push(`id=${req.query.formid}`);
+  if (checkid && formid) {
+    params.push(`id='${formid}'`);
+    isFilter = true;
+    
+  }
+  if (checkstring && formstring) {
+    params.push(`string = '${formstring}'`);
     isFilter = true;
   }
-  if (req.query.checkstring && req.query.formstring) {
-    params.push(`string like '%${req.query.formstring}%'`);
+  if (checkinteger && forminteger) {
+    params.push(`integer='${forminteger}'`);
     isFilter = true;
   }
-  if (req.query.checkinteger && req.query.forminteger) {
-    params.push(`integer=${req.query.forminteger}`);
+  if (checkfloat && formfloat) {
+    params.push(`float='${formfloat}'`);
     isFilter = true;
   }
-  if (req.query.checkfloat && req.query.formfloat) {
-    params.push(`float=${req.query.formfloat}`);
+  if (checkdate && formdate && formenddate) {
+    params.push(`date between '${formdate}' and '${formenddate}'`);
     isFilter = true;
   }
-  if (req.query.checkdate && req.query.formdate && req.query.formenddate) {
-    params.push(`date between '${req.query.formdate}' and '${req.query.formenddate}'`);
-    isFilter = true;
-  }
-  if (req.query.checkboolean && req.query.boolean) {
-    params.push(`boolean='${req.query.boolean}'`);
+  if (checkboolean && boolean) {
+    params.push(`boolean='${boolean}'`);
     isFilter = true;
   }
 
   let sql = `select count(*) as total from data`;
-  if (isFilter) {
+  if (isFilter == true) {
     sql += ` where ${params.join(' and ')}`
-
+    console.log(sql)
   }
 
   db.all(sql, (err, count) => {
@@ -78,8 +82,6 @@ app.get('/', (req, res) => {
     console.log(sql)
     db.all(sql, (err, rows) => {
       res.render('list', { rows, page, pages, query: req.query, url });
-      console.log({ rows })
-      console.log(params)
     });
   });
 });
