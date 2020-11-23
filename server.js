@@ -28,7 +28,7 @@ let db = new sqlite3.Database(path.join(__dirname, 'data.db'), (err) => {
 //db.run('CREATE TABLE IF NOT EXISTS data(id INTEGER PRIMARY KEY AUTOINCREMENT, string TEXT NOT NULL, integer INTEGER NOT NULL, float FLOAT NOT NULL, date TEXT NOT NULL, boolean TEXT NOT NULL)');
 
 app.get('/', (req, res) => {
-  const {checkid,checkdate, checkfloat,checkstring,checkinteger,formid,formstring,forminteger,formfloat,formdate,formenddate,checkboolean,boolean} = req.query;
+  const { checkid, checkdate, checkfloat, checkstring, checkinteger, formid, formstring, forminteger, formfloat, formdate, formenddate, checkboolean, boolean } = req.query;
   const page = req.query.page || 1;
   const limit = 3;
   const offset = (page - 1) * limit;
@@ -36,13 +36,11 @@ app.get('/', (req, res) => {
 
   let params = [];
   let isFilter = false;
-  console.log(checkid)
-  console.log(formid)
-
+  
   if (checkid && formid) {
     params.push(`id='${formid}'`);
     isFilter = true;
-    
+
   }
   if (checkstring && formstring) {
     params.push(`string = '${formstring}'`);
@@ -66,9 +64,8 @@ app.get('/', (req, res) => {
   }
 
   let sql = `select count(*) as total from data`;
-  if (isFilter == true) {
+  if (isFilter) {
     sql += ` where ${params.join(' and ')}`
-    console.log(sql)
   }
 
   db.all(sql, (err, count) => {
@@ -79,7 +76,6 @@ app.get('/', (req, res) => {
       sql += ` where ${params.join(' and ')}`
     }
     sql += ` limit ${limit} offset ${offset}`;
-    console.log(sql)
     db.all(sql, (err, rows) => {
       res.render('list', { rows, page, pages, query: req.query, url });
     });
