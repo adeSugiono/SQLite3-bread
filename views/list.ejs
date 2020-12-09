@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>BREAD (Browse, Read, Edit, Add, Delete)</h1>
+    <h3>Filters</h3>
+    <form action="/" method="get">
+        <label><input type="checkbox" name="checkid">ID</label>
+        <input type="iteger" placeholder="ID" name="formid"><br />
+        <label><input type="checkbox" name="checkstring">String</label>
+        <input type="iteger" placeholder="String" name="formstring"><br />
+        <label><input type="checkbox" name="checkinteger">Integer</label>
+        <input type="iteger" placeholder="Integer" ame="forminteger"><br />
+        <label><input type="checkbox" name="checkfloat">Folat</label>
+        <input type="iteger" placeholder="Float" name="formfloat"><br />
+        <label><input type="checkbox" name="checkdate">Date</label>
+        <input type="iteger" placeholder="tart date" name="formdate"><br />
+        <input type="text" placeholder="end date" name="formenddate"><br />
+        <label><input type="checkbox" name="checkboolean">Boolean</label>
+        <select class="custom-select" name="boolean">
+            <option value="">Choose the boolean ...</option>
+            <option value="true">True</option>
+            <option value="false">False</option>
+        </select><br />
+
+        <a href="/">
+            <button type="submit" style="color: mediumblue;">Search</button>
+        </a>
+    </form>
+
+    <table border="1" action="/" method="get">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>String</th>
+                <th>Integer</th>
+                <th>Float</th>
+                <th>Date</th>
+                <th>Boolean</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% rows.forEach((item) => { %>
+            <tr>
+                <td><%= item.id %></td>
+                <td><%= item.string %></td>
+                <td><%= item.integer%></td>
+                <td><%= item.float %></td>
+                <td><%= item.date %></td>
+                <td><%= item.boolean %></td>
+                <td>
+                    <a href="/edit/<%= item.id %>">
+                        <button style="color: darkgreen;">Edit</button>
+                    </a>
+                    <a href="/delete/<%= item.id %>">
+                        <button style="color: darkred;">Delete</button>
+                    </a>
+                </td>
+            </tr>
+            <% })%>
+        </tbody>
+    </table>
+    <nav>
+        <ul class="pagination">
+            <a href="/?page=<%= parseInt(page) - 1 %>" tabindex="-1">Previous</a>
+            <% for(let i = 1; i <= pages; i++){ %>
+            <a href="<%= url.replace(`page=${page}`, `page=${i}`); %>">
+                <%= i %></a>
+            <% } %>
+            <a href="/?page=<%= parseInt(page) + 1 %>">Next</a>
+        </ul>
+    </nav>
+    <a href="/add">
+        <button style="color: royalblue;">Add</button>
+    </a>
+</body>
+
+</html>
